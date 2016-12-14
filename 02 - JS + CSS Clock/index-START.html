@@ -52,21 +52,52 @@
       position: relative;
       width: 100%;
       height: 100%;
-      transform: translateY(-3px); /* account for the height of the clock hands */
+      transform: translateY(-3px) rotate(90deg); /* account for the height of the clock hands */
     }
 
     .hand {
       width:50%;
-      height:6px;
       background:black;
       position: absolute;
       top:50%;
+      transform-origin: right;
+    }
+    .second-hand {
+      background-color: red;
+      height:2px;
+    }
+    .min-hand {
+      background-color: white;
+      height:4px;
+    }
+    .hour-hand {
+      background-color: black;
+      height:8px;
     }
 
   </style>
 
   <script>
+  var secondHand = document.querySelector('.second-hand');
+  var minsHand = document.querySelector('.min-hand');
+  var hourHand = document.querySelector('.hour-hand');
 
+  function setTime() {
+    var now = new Date(); // Date.now() + 8411544
+    var arr = [now.getSeconds(), now.getMinutes(), now.getHours()];
+
+    arr[0] *= (360 / 60);
+    arr[1] *= (360 / 60);
+    arr[2] *= (360 / 12);
+    arr[2] += arr[1] / 14; // tweak hour hand
+
+    secondHand.style.transform = `rotate(${arr[0]}deg)`;
+    minsHand.style.transform = `rotate(${arr[1]}deg)`;
+    hourHand.style.transform = `rotate(${arr[2]}deg)`;
+  }
+
+  setInterval(setTime, 1000);
+  setTime();
 
   </script>
 </body>
