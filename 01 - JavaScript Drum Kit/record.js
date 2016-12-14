@@ -132,7 +132,7 @@ var Record = (function () {
   Key.bind();
   Meter.bind();
 
-  console.debug(Api);
+  console.table(Api);
   return Api;
 }());
 
