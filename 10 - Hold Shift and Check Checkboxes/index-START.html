@@ -105,26 +105,28 @@
 
 <script>
 var Api = (function () {
+  // polyfill for jQuery
   var $ = (sel) => Array.from(document.querySelectorAll(sel));
   var boxlist = $('.item input');
-  var indexes = {};
+  var indexes = {}; // memory for box clicks
   var self;
 
-  function reverser(bool) {
-    var [start, end] = [indexes.last, indexes.this].sort();
+  function setChecked(bool) {
+    // ensure lower index comes first
+    var [start, end] = [indexes.last, indexes.next].sort();
     var arr = boxlist.slice(start, end + 1);
-    arr.forEach(el => el.checked = bool);
+    arr.forEach((el) => el.checked = bool);
   }
 
-  function updateLast(evt, num) {
-    indexes.last = evt.shiftKey ? indexes.this : num;
-    indexes.this = num;
-    reverser(evt.target.checked);
+  function revIndexes(evt, num) {
+    indexes.last = evt.shiftKey ? indexes.next : num;
+    indexes.next = num;
+    setChecked(evt.target.checked); // replicate this state
   }
 
   function doBinding(arr) {
     arr.forEach((ele, idx) => {
-      ele.addEventListener('click', (evt) => updateLast(evt, idx));
+      ele.addEventListener('click', (evt) => revIndexes(evt, idx));
     });
     return self;
   }
