@@ -104,6 +104,39 @@
   </div>
 
 <script>
+var Api = (function () {
+  var $ = (sel) => Array.from(document.querySelectorAll(sel));
+  var boxlist = $('.item input');
+  var indexes = {};
+  var self;
+
+  function reverser(bool) {
+    var [start, end] = [indexes.last, indexes.this].sort();
+    var arr = boxlist.slice(start, end + 1);
+    arr.forEach(el => el.checked = bool);
+  }
+
+  function updateLast(evt, num) {
+    indexes.last = evt.shiftKey ? indexes.this : num;
+    indexes.this = num;
+    reverser(evt.target.checked);
+  }
+
+  function doBinding(arr) {
+    arr.forEach((ele, idx) => {
+      ele.addEventListener('click', (evt) => updateLast(evt, idx));
+    });
+    return self;
+  }
+
+  self = {
+    init: doBinding,
+    boxlist, indexes,
+  };
+
+  return self.init(boxlist);
+}());
+
 </script>
 </body>
 </html>
