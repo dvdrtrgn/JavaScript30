@@ -118,15 +118,16 @@ var Api = (function () {
     arr.forEach((el) => el.checked = bool);
   }
 
-  function revIndexes(evt, num) {
+  function revIndexes(evt) {
+    var num = boxlist.indexOf(evt.target);
     indexes.last = evt.shiftKey ? indexes.next : num;
     indexes.next = num;
     setChecked(evt.target.checked); // replicate this state
   }
 
   function doBinding(arr) {
-    arr.forEach((ele, idx) => {
-      ele.addEventListener('click', (evt) => revIndexes(evt, idx));
+    arr.forEach((ele) => {
+      ele.addEventListener('click', revIndexes);
     });
     return self;
   }
