@@ -104,38 +104,84 @@
   </div>
 
 <script>
+// Create Immediately Invoked Function Expression
+// and save to newly declared variable, Api
 var Api = (function () {
   // polyfill for jQuery
+  // Create function, $, that takes one argument, a selector
+  // Query document for all elements matching selector
+  // Convert NodeList to array
+  // Implicitly return array
   var $ = (sel) => Array.from(document.querySelectorAll(sel));
+  // Call $, passing selector targeting all input elements
+  // Store returned array-converted NodeList in variable boxlist
   var boxlist = $('.item input');
+  // Create empty object and store in new variable, indexes
   var indexes = {}; // memory for box clicks
+  // Declare variable self. Set value later.
   var self;
-
+  // Define function setChecked
+  // expects one argument, a boolean value
   function setChecked(bool) {
     // ensure lower index comes first
+    // Sory array of two integers referenced by object's values
+    // Store first item in new variable, start
+    // Store second item in new variable, end
     var [start, end] = [indexes.last, indexes.next].sort();
+    // Perform array method, slice, on array-converted NodeList, boxlist
+    // ??? return a subset array of nodes
+    // store subset array in new variable, arr
     var arr = boxlist.slice(start, end + 1);
+    // Loop through array, arr
+    // For each element
+    // set 'checked' attribute to passed in boolean value
     arr.forEach((el) => el.checked = bool);
   }
-
+  // Define function revIndexes
+  // expects two arguments
+  // 1. event object (click event)
+  // 2. integer (index of element from enclosing forEach loop)
   function revIndexes(evt, num) {
+    // Update/create property 'last' of object 'indexes'
+    //  was shift key pressed during click event?
+    //    then set 'last' property to value stored in 'next' property
+    //  otherwise
+    //    set 'last' property to passed in index of element in forEach loop
     indexes.last = evt.shiftKey ? indexes.next : num;
+    // Set 'next' property of object 'indexes'
+    // to passed in index of element in forEach loop
     indexes.next = num;
+    // Invoke function setChecked
+    // Pass boolean value representing whether event's target has checked attribute
     setChecked(evt.target.checked); // replicate this state
   }
-
+  // Define function doBinding
+  // expects one argument, an array
   function doBinding(arr) {
+    // Loop through passed array object
+    // For each element at the current index
     arr.forEach((ele, idx) => {
+      // Add click event listener to current element
+      // Run revIndexes function when click event is triggered
+      // Pass two parameters when invoked:
+      // 1. event object
+      // ??? 2. index from outer array loop
       ele.addEventListener('click', (evt) => revIndexes(evt, idx));
     });
+    // ??? Return self, to enable ability to chain methods
     return self;
   }
-
+  // Set self equal to an object
+  // with one method, init
+  // and two properties: boxlist and indexes
   self = {
     init: doBinding,
     boxlist, indexes,
   };
-
+  // Return encapsulated object, self
+  // and invoke method init which is a reference to encapsulated function doBinding
+  // pass one argument to init: boxlist
+  // boxlist is an Array made from a NodeList of all input elements
   return self.init(boxlist);
 }());
 
