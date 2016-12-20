@@ -7,6 +7,11 @@
 </head>
 <body>
 
+  <div id="Meter" style=" background-color: gray; position: absolute; text-align: center; width: 100%;">
+    <p style="color: white;">spacebar to play/record+stop/play</p>
+    <input style="margin: 1em; width: 90%;" type="range" min="0" max="99" step="1">
+    <button style="border-radius: 2em;">X</button>
+  </div>
 
   <div class="keys">
     <div data-key="65" class="key">
@@ -57,10 +62,8 @@
   <audio data-key="75" src="sounds/tom.wav"></audio>
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
-<script>
-
-</script>
-
+  <script src="play.js" charset="utf-8"></script>
+  <script src="record.js" charset="utf-8"></script>
 
 </body>
 </html>
