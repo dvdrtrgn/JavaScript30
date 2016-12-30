@@ -107,7 +107,7 @@
 var Api = (function () {
   // polyfill for jQuery
   var $ = (sel) => Array.from(document.querySelectorAll(sel));
-  var boxlist = $('.item input');
+  var boxlist = $();
   var indexes = {}; // memory for box clicks
   var self;
 
@@ -118,27 +118,36 @@ var Api = (function () {
     arr.forEach((el) => el.checked = bool);
   }
 
-  function revIndexes(evt, num) {
+  function revIndexes(evt) {
+    var num = boxlist.indexOf(evt.target);
     indexes.last = evt.shiftKey ? indexes.next : num;
     indexes.next = num;
     setChecked(evt.target.checked); // replicate this state
   }
 
-  function doBinding(arr) {
-    arr.forEach((ele, idx) => {
-      ele.addEventListener('click', (evt) => revIndexes(evt, idx));
-    });
+  function detach() {
+    boxlist.forEach((ele) => ele.removeEventListener('click', revIndexes));
+    boxlist.splice(0, Infinity);
+    return self;
+  }
+
+  function doBinding(arg) {
+    detach(); // clean up
+    var arr = arg.split ? $(arg) : arg; // query if string
+    boxlist.push.apply(boxlist, arr); // swap in new boxlist
+    boxlist.forEach((ele) => ele.addEventListener('click', revIndexes));
     return self;
   }
 
   self = {
     init: doBinding,
+    select: $,
     boxlist, indexes,
   };
 
-  return self.init(boxlist);
+  return doBinding('.item input');
 }());
-
+console.log(Api);
 </script>
 </body>
 </html>
