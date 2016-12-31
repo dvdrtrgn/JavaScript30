@@ -1,6 +1,6 @@
 define(['util'], function ($) {
 
-  function camera2video(_video = {}) {
+  function pipeCameraTo(_video = {}) {
     if (_video.tagName !== 'VIDEO') {
       throw Error('Pipes only to video elements');
     }
@@ -31,19 +31,19 @@ define(['util'], function ($) {
   }
 
   function video2canvas(_video, _canvas) {
-    var context, height, width, interval;
+    var context, height, width;
 
     context = _canvas.getContext('2d');
     height = _canvas.height = _video.videoHeight;
     width = _canvas.width = _video.videoWidth;
-    interval = setInterval(foo => {
-      context.drawImage(_video, 0, 0, width, height);
-    });
     _video.hidden = true;
 
     return {
       _: 'video2canvas',
-      _video, _canvas, context, height, width, interval,
+      _video, _canvas, context, height, width,
+      draw: foo => {
+        context.drawImage(_video, 0, 0, width, height);
+      },
     };
   }
 
@@ -66,7 +66,7 @@ define(['util'], function ($) {
   }
 
   return {
-    camera2video,
+    pipeCameraTo,
     video2canvas,
     snapCanvas,
   };

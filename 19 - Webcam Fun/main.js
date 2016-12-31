@@ -5,36 +5,35 @@ require.config({
   paths: {
     lodash: '../vendors/lodash.js/lodash',
   },
-  shim: {
-    foo: {
-      deps: ['lodash'],
-      exports: 'Foo',
-    },
-  },
 });
 
-function init($, V) {
+function init($, V, Ival) {
+
   var cfg = {
     _: 'init()',
     $play: $('button.play'),
     $photo: $('canvas.photo'),
     $video: $('video.player'),
     $snap: $('button.shot'),
+    interval: Ival.create($.noop, 999),
+    cameraObj: null,
+    canvasObj: null,
   };
 
-  cfg.camera2video = V.camera2video(cfg.$video);
+  cfg.cameraObj = V.pipeCameraTo(cfg.$video);
 
   cfg.$video.addEventListener('canplay', evt => {
-    if (!cfg.video2canvas) {
-      cfg.video2canvas = V.video2canvas(cfg.$video, cfg.$photo);
+    if (!cfg.canvasObj) {
+      cfg.canvasObj = V.video2canvas(cfg.$video, cfg.$photo);
+      cfg.interval.setAction(cfg.canvasObj.draw);
     }
   });
 
   cfg.$play.addEventListener('click', evt => {
-    if (!cfg.camera2video.playing) {
-      cfg.camera2video.start();
+    if (!cfg.cameraObj.playing) {
+      cfg.cameraObj.start();
     } else {
-      cfg.camera2video.stop();
+      cfg.cameraObj.stop();
     }
   });
 
@@ -49,4 +48,4 @@ function init($, V) {
   return cfg;
 }
 
-require(['./util', './vid'], init);
+require(['util', 'vid', 'interval'], init);
