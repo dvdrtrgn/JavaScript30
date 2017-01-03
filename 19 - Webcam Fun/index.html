@@ -4,13 +4,17 @@
   <meta charset="UTF-8">
   <title>Get User Media Code Along!</title>
   <link rel="stylesheet" href="style.css">
+  <script src="../libs/require.js" data-main="./main"></script>
 </head>
 <body>
 
   <div class="photobooth">
     <div class="controls">
-      <button onClick="takePhoto()">Take Photo</button>
-<!--       <div class="rgb">
+      <!-- <button onClick="takePhoto()">Take Photo</button> -->
+      <button class="play">Play/Pause</button>
+      <button class="shot">Snapshot</button>
+
+      <!-- <div class="rgb">
         <label for="rmin">Red Min:</label>
         <input type="range" min=0 max=255 name="rmin">
         <label for="rmax">Red Max:</label>
@@ -29,8 +33,8 @@
         <input type="range" min=0 max=255 name="bmin">
         <label for="bmax">Blue Max:</label>
         <input type="range" min=0 max=255 name="bmax">
-      </div> -->
-    </div>
+      </div>
+    </div> -->
 
     <canvas class="photo"></canvas>
     <video class="player"></video>
@@ -39,7 +43,7 @@
 
   <audio class="snap" src="http://wesbos.com/demos/photobooth/snap.mp3" hidden></audio>
 
-  <script src="scripts.js"></script>
+  <!-- <script src="scripts-FINISHED.js"></script> -->
 
 </body>
 </html>
