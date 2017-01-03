@@ -1,4 +1,4 @@
-define(['util'], function ($) {
+define(['lib/util'], function ($) {
 
   function pipeCameraTo(_video = {}) {
     if (_video.tagName !== 'VIDEO') {

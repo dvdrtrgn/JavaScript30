@@ -1,4 +1,4 @@
-define(['util'], {
+define(['lib/util'], {
   create: function (_fn, _ms, _once) {
     var count, interval, action, rate, self;
 

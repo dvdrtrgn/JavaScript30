@@ -1,13 +1,13 @@
 'use strict';
 
 require.config({
-  baseUrl: '../libs',
+  baseUrl: '.',
   paths: {
-    lodash: '../vendors/lodash.js/lodash',
+    lib: '../libs/',
   },
 });
 
-function init($, V, Ival) {
+function init($, Ival, V) {
 
   var cfg = {
     _: 'init()',
@@ -48,4 +48,4 @@ function init($, V, Ival) {
   return cfg;
 }
 
-require(['util', 'vid', 'interval'], init);
+require(['lib/util', 'lib/interval', 'vid'], init);
