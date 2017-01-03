@@ -23,13 +23,14 @@ function paintToCanavas() {
   canvas.height = height;
 
   return setInterval(() => {
+    if (!window.go) return;
     ctx.drawImage(video, 0, 0, width, height);
     // take the pixels out
     let pixels = ctx.getImageData(0, 0, width, height);
     // mess with them
     // pixels = redEffect(pixels);
 
-    pixels = rgbSplit(pixels);
+    pixels = greenScreen(pixels);
     // ctx.globalAlpha = 0.8;
 
     // pixels = greenScreen(pixels);
